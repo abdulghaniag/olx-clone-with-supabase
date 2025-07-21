@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Product</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      background: #f9fafb;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+    .form-box {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+    .form-box h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #1f2937;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #10b981;
+      color: white;
+      border: none;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #059669;
+    }
+    .home-link {
+margin-bottom: 10px;          
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.home-link:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+  }
+
+  .form-box {
+    padding: 20px;
+    margin: 20px 10px;
+  }
+
+  .form-box h2 {
+    font-size: 22px;
+  }
+
+  label {
+    font-size: 15px;
+  }
+
+  input,
+  textarea {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .home-link {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-box {
+    padding: 15px;
+  }
+
+  input,
+  textarea {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  .form-box h2 {
+    font-size: 20px;
+  }
+
+  .home-link {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+    
+  </style>
+</head>
+<body>
+    <a href="./index.html" class="home-link">← Back to Home</a>
+
+<div class="form-box">
+  <h2>Add New Product</h2>
+  <div class="form-group">
+    <label for="name">Product Name</label>
+    <input type="text" id="name" placeholder="e.g. iPhone 15 Pro Max">
+  </div>
+  <div class="form-group">
+    <label for="tittle">Product Title</label>
+    <input type="text" id="tittle" placeholder="e.g. 256GB PTA Approved">
+  </div>
+  <div class="form-group">
+    <label for="price">Price (just numbers)</label>
+    <input type="number" id="price" placeholder="e.g. 180000">
+  </div>
+  <div class="form-group">
+  <label for="ram">Condition</label>
+  <input type="text" id="condition" placeholder="e.g. 8 GB">
+</div>
+  <div class="form-group">
+    <label for="description">Short Description</label>
+    <textarea id="description" placeholder="e.g. Excellent condition, no fault"></textarea>
+  </div>
+
+  <div class="form-group">  
+  <label for="image">Image URLs (comma-separated)</label>
+<input type="text" id="image" placeholder="e.g. ./img1.jpg, ./img2.jpg, ./img3.jpg">
+  </div> 
+  
+<button id="saveBtn">Save Product</button>
+</div>
+
+
+<script type="module">
+import { supabase } from "./supabaseConfig.js";
+
+document.getElementById("saveBtn").addEventListener("click", saveProduct);
+
+async function saveProduct() {
+  let existing = JSON.parse(localStorage.getItem("userSellItem")) || [];
+
+  let name = document.getElementById("name").value.trim();
+  let tittle = document.getElementById("tittle").value.trim();
+  let price = document.getElementById("price").value.trim();
+  let description = document.getElementById("description").value.trim();
+  let condition = document.getElementById("condition").value.trim();
+  let image = document.getElementById("image").value.trim();
+
+  let loggedUser = localStorage.getItem("loggedInUser");
+  let user_email = "";
+
+  try {
+    let parsed = JSON.parse(loggedUser);
+    user_email = parsed.email || loggedUser;
+  } catch {
+    user_email = loggedUser;
+  }
+
+  if (!name || !tittle || !price || !description || !condition || !image) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Please fill all fields!",
+    });
+    return;
+  }
+
+  let imageArray = image.split(",").map(img => img.trim().replace(/['"]+/g, ""));
+
+  let newProduct = {
+    name: name,
+    tittle: tittle,
+    price: `Rs. ${price}`,
+    display: description,
+    ram: condition,
+    image: imageArray[0] || "./images/services-sell.jpg",
+    images: imageArray
+  };
+
+  existing.push(newProduct);
+  localStorage.setItem("userSellItem", JSON.stringify(existing));
+  localStorage.setItem("selectProduct", JSON.stringify(newProduct));
+
+  
+// 👇 Yeh line ADD karo - yeh sabse important hai
+let allProductArray = JSON.parse(localStorage.getItem("allProduct")) || [];
+allProductArray.push(newProduct);
+localStorage.setItem("allProduct", JSON.stringify(allProductArray));
+
+  const { error } = await supabase.from("user_sell_product").insert([
+    {
+      user_email: user_email,
+      name: name,
+      tittle: tittle,
+      price: Number(price),
+      description: description,
+      condition: condition,
+      main_image: imageArray[0],
+      image_urls: imageArray,
+    }
+  ]);
+
+  if (error) {
+    console.error("Supabase Insert Error:", error);
+    Swal.fire("Error", "Failed to save product in database.", "error");
+    return;
+  }
+
+  Swal.fire({
+    icon: "success",
+    title: "Product Saved Successfully!",
+    showConfirmButton: false,
+    timer: 1500
+  });
+
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 1500);
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+<!-- <script type="module">
+
+import { supabase } from "./supabaseConfig.js";
+
+function saveProduct(){  
+  let existing = JSON.parse(localStorage.getItem("userSellItem")) || [];
+
+  let name = document.getElementById("name").value.trim();
+  let tittle = document.getElementById("tittle").value.trim();
+  let price = document.getElementById("price").value.trim();
+  let description = document.getElementById("description").value.trim();
+  let condition = document.getElementById("condition").value.trim();
+  let image = document.getElementById("image").value.trim();
+   
+      
+   if(!name || !tittle || !price || !description || !condition || !image){
+    Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Please fill all feild!",
+  footer: '<a href="#">Why do I have this issue?</a>'
+});
+    // alert("Please fill all feild");
+    return; 
+}
+
+let imageArray = image.split(",").map(img => img.trim().replace(/['"]+/g, ""));
+
+    let newProduct = {
+        name : name,
+        tittle: tittle,
+        price: `Rs. ${price}`,
+        display: description,
+        ram: condition,
+        image: imageArray[0] || "./images/services-sell.jpg",
+        images: imageArray
+    };
+
+    existing.push(newProduct);
+ localStorage.setItem("userSellItem" ,JSON.stringify(existing))
+
+    // ab jo sara data local storage main save ho ga us ki key "allProduct" hai 
+ localStorage.setItem("selectProduct" ,JSON.stringify(newProduct));
+ 
+
+Swal.fire({
+  icon: "success",
+  title: "Product Saved Successfully!",
+  showConfirmButton: false,
+  timer: 1500 // 2 seconds
+});
+
+setTimeout(() => {
+  window.location.href = "index.html";
+}, 1500);
+
+// alert("Product Saved Successfully")
+// window.location.href = "index.html"
+}
+</script> -->
+
+</body>
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+ <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      padding: 40px;
+    }
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 60px 5%;
+  background-color: #f9f9f9;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
+}
+#left {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+ #left .main-img {
+  width: 100%;
+  height: 400px; /* Fixed height for consistency */
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+#thumbs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+ #thumbs img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.3s ease;
+}
+
+
+#thumbs img:hover {
+  border: 2px solid #4CAF50;
+}
+
+/* ===== Right Side (Details) ===== */
+#right {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#right h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #222;
+  font-weight: 600;
+}
+
+#right h3 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #555;
+}
+
+#right p {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #444;
+  line-height: 1.5;
+}
+
+#right button {
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  color: white;
+  font-size: 18px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 20px;
+  font-weight: 600;
+  box-shadow: 0 6px 14px rgba(76, 175, 80, 0.3);
+}
+
+#right button:hover {
+  background: linear-gradient(135deg, #66BB6A, #388E3C);
+  transform: scale(1.02);
+}
+
+@media (max-width: 992px) {
+  #container {
+    flex-direction: column;
+    padding: 40px 30px;
+    gap: 30px;
+  }
+
+  #left, #right {
+    max-width: 100%;
+  }
+
+  #left .main-img {
+    height: 300px; /* reduce image height for small screens */
+  }
+
+  #thumbs {
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  #thumbs img {
+    width: 70px;
+    height: 70px;
+  }
+
+  #right {
+    padding: 20px;
+  }
+
+  #right h2 {
+    font-size: 26px;
+  }
+
+  #right h3 {
+    font-size: 22px;
+  }
+
+  #right p {
+    font-size: 16px;
+  }
+
+  #right button {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  #container {
+    padding: 20px 15px;
+  }
+
+  #left .main-img {
+    height: 240px;
+  }
+
+  #thumbs img {
+    width: 60px;
+    height: 60px;
+  }
+
+  #right h2 {
+    font-size: 22px;
+  }
+
+  #right h3 {
+    font-size: 18px;
+  }
+
+  #right p {
+    font-size: 15px;
+  }
+
+  #right button {
+    font-size: 15px;
+    padding: 10px 16px;
+  }
+}
+
+.product-heading {
+ margin-top: -30px;
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 20px;
+  background: linear-gradient(to right, #f8fafc, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.product-heading h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1f2937;
+  /* margin-bottom: 10px; */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.product-heading p {
+  font-size: 17px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+  </style>
+
+
+</head>
+<body>
+
+
+    <div id="productDetail"></div>
+
+    <div class="product-heading">
+  <h1>Product Details & Specifications</h1>
+  <p>Everything you need to know before adding to cart</p>
+</div>
+  
+<div id="container">
+    <div id="left">
+        <img id="mainImg" class="main-img" src="" alt="product Image">
+        <div class="thumbnails" id="thumbs"></div>
+    </div>
+
+    <div id="right">
+        <h2 id="productName"></h2>
+        <h3 id="productTittle"></h3>
+        <p id="productPrice"></p>
+        <p id="productDisplay"></p>
+        <p id="productRam"></p>
+        <button onclick="addToCart()">Add to Cart</button>
+    </div>
+</div>
+<script type="module">
+import { supabase } from "./supabaseConfig.js";
+
+// ✅ Product data from localStorage
+let data = JSON.parse(localStorage.getItem("selectProduct"));
+let mainImg = document.getElementById("mainImg");
+let thumbsDiv = document.getElementById("thumbs");
+
+if (data.images && Array.isArray(data.images) && data.images.length > 0) {
+  mainImg.src = data.images[0];
+
+  for (let i = 0; i < data.images.length; i++) {
+    let img = document.createElement("img");
+    img.src = data.images[i];
+    img.onclick = () => {
+      mainImg.src = data.images[i];
+    };
+    thumbsDiv.appendChild(img);
+  }
+} else {
+  mainImg.src = data.images;
+}
+
+document.getElementById("productName").textContent = data.name;
+document.getElementById("productTittle").textContent = data.tittle;
+document.getElementById("productPrice").textContent = data.price;
+document.getElementById("productDisplay").textContent = data.display;
+document.getElementById("productRam").textContent = data.ram;
+
+// ✅ Add to Cart function — Global
+window.addToCart = async function () {
+  let storeData = localStorage.getItem("storeData");
+  let isLoggedIn = localStorage.getItem("isLoggedIn");
+  let email = localStorage.getItem("loggedInUser");
+
+  if (!storeData) {
+    localStorage.setItem("redirectBack", "display.html");
+    Swal.fire({
+      icon: "warning",
+      title: "Please Sign Up First",
+      text: "You need to create an account before adding to cart.",
+      timer: 1500,
+      showConfirmButton: false
+    });
+    setTimeout(() => {
+      window.location.href = "sign-up.html";
+    }, 1500);
+    return;
+  }
+
+  if (!isLoggedIn || !email) {
+    localStorage.setItem("redirectBack", "display.html");
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Please Login your account!",
+      timer: 1500,
+      showConfirmButton: false
+    });
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1500);
+    return;
+  }
+
+  // ✅ Clean price
+  let cleanPrice = parseInt(data.price.toString().replace(/\D/g, ""));
+
+  // ✅ Insert into Supabase
+  const { error } = await supabase.from("user_cart").insert([
+    {
+      user_email: email,
+      product_name: data.name,
+      product_image: Array.isArray(data.images) ? data.images[0] : data.images,
+      product_price: cleanPrice,
+      quantity: 1
+    }
+  ]);
+
+  if (error) {
+    console.error("Supabase Insert Error:", error);
+    Swal.fire("Error", "Failed to add item to cart.", "error");
+    return;
+  }
+
+  Swal.fire({
+    title: "Item Added to Cart!",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500
+  });
+
+  setTimeout(() => {
+    window.location.href = "cart.html";
+  }, 1600);
+};
+
+</script>
+
+
+<!-- <script type="module">
+
+
+import { supabase } from "./supabaseConfig.js";
+
+  window.addToCart = async function () {
+  let storeData = localStorage.getItem("storeData");
+  let isLoggedIn = localStorage.getItem("isLoggedIn");
+  let email = localStorage.getItem("loggedInUser");
+
+  if (!storeData) {
+    localStorage.setItem("redirectBack", "display.html");
+    Swal.fire({
+      icon: "warning",
+      title: "Please Sign Up First",
+      text: "You need to create an account before adding to cart.",
+      timer: 1500,
+      showConfirmButton: false
+    });
+    setTimeout(() => {
+      window.location.href = "sign-up.html";
+    }, 1500);
+    return;
+  }
+
+  if (!isLoggedIn || !email) {
+    localStorage.setItem("redirectBack", "display.html");
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Please Login your account!",
+      timer: 1500,
+      showConfirmButton: false
+    });
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1500);
+    return;
+  }
+
+  // ✅ Prepare clean price
+  let cleanPrice = parseInt(data.price.toString().replace(/\D/g, ""));
+
+  // ✅ Supabase insert
+  const { error } = await supabase.from("user_cart").insert([
+    {
+      user_email: email,
+      product_name: data.name,
+      product_image: Array.isArray(data.images) ? data.images[0] : data.images,
+      product_price: cleanPrice,
+      quantity: 1
+    }
+  ]);
+
+  if (error) {
+    console.error("Supabase Insert Error:", error);
+    Swal.fire("Error", "Failed to add item to cart.", "error");
+    return;
+  }
+
+  // ✅ Success message
+  Swal.fire({
+    title: "Item Added to Cart!",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500
+  });
+
+  setTimeout(() => {
+    window.location.href = "cart.html";
+  }, 1600);
+}
+ -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+// import { supabase } from "./supabaseConfig.js";
+ 
+//    let data =  JSON.parse(localStorage.getItem("selectProduct"))
+//    let mainImg =  document.getElementById("mainImg");
+//    let thumbsDiv = document.getElementById("thumbs");
+
+
+//    if(data.images && Array.isArray(data.images) && data.images.length > 0){
+//     mainImg.src= data.images[0];
+
+//     for(let i=0; i<data.images.length; i++){
+//         let img = document.createElement("img");
+//         img.src = data.images[i];
+//         img.onclick = () => {
+//             mainImg.src = data.images[i];
+//         } ;
+//         thumbsDiv.appendChild(img);
+//      }   
+//     }else{
+//         mainImg.src = data.images;
+//     }
+//     document.getElementById("productName").textContent = data.name;
+//     document.getElementById("productTittle").textContent = data.tittle;
+//     document.getElementById("productPrice").textContent = data.price;
+//     document.getElementById("productDisplay").textContent = data.display;
+//     document.getElementById("productRam").textContent = data.ram;
+
+
+//     function addToCart(){
+//         let storeData = localStorage.getItem("storeData");
+//         // console.log(storeData);
+//         let isLoggedIn = localStorage.getItem("isLoggedIn");
+//         // console.log(isLoggedIn);
+//         let email = localStorage.getItem("loggedInUser");
+      
+//         if(!storeData){
+//         localStorage.setItem("redirectBack" , "display.html");
+//    Swal.fire({
+//       icon: "warning",
+//       title: "Please Sign Up First",
+//       text: "You need to create an account before adding to cart.",
+//       timer: 1500, 
+//       showConfirmButton: false
+//     });
+
+//     setTimeout(() => {
+//       window.location.href = "sign-up.html";
+//     }, 1500); 
+//     return;
+//   }
+//       if(!isLoggedIn || !email){
+//         localStorage.setItem("redirectBack" , "display.html");
+//          Swal.fire({
+//       icon: "error",
+//       title: "Oops...",
+//       text: "Please Login your account!",
+//       timer: 1500,
+//       showConfirmButton: false
+//     });
+
+//     setTimeout(() => {
+//       window.location.href = "login.html";
+//     }, 1500);
+//     return;
+//   }
+
+//         // let email = localStorage.getItem("loggedInUser");
+//         let allCarts = JSON.parse(localStorage.getItem("allCarts")) || {}
+//         let cart = allCarts[email] || [] ;
+
+//         // localStorage.setItem("allCarts", JSON.stringify(allCarts));
+//         let cleanPrice = parseInt(data.price.toString().replace(/\D/g, ""));
+//         let existing = cart.find(item => item.name === data.name);
+//   if(existing){
+//     existing.quantity += 1;
+//   }else{
+//     cart.push({
+//       name : data.name,
+//       image: Array.isArray(data.images) ? data.images[0] : data.images,
+//       price: cleanPrice,
+//       quantity : 1
+//     });
+//   }
+
+//    allCarts[email] = cart ; 
+//   localStorage.setItem("allCarts" ,JSON.stringify(allCarts));
+// //   alert("Item added to cart!");
+//     Swal.fire({
+//         title: "Item Added to Cart!",
+//         icon: "success",
+//         showConfirmButton: false,
+//         timer: 1500
+//     });
+
+//     setTimeout(() => {
+//         window.location.href = "cart.html";
+//     }, 1600);
+// };
+ -->
+
+<!-- </script> -->
+
+</body>
+</html>

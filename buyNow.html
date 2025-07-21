@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Buy Now</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .form-container {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #111827;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 15px;
+      transition: border 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #10b981;
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #059669;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #6b7280;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #111827;
+    }
+
+     .home-link {
+        margin-top: 20px;
+  margin-bottom: 10px;          
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.home-link:hover {
+  background-color: #0056b3;
+}
+  </style>
+</head>
+<body>
+
+  <form class="form-container" id="orderForm">
+    <h2>Complete Your Purchase</h2>
+
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="e.g. Ali Khan" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" placeholder="e.g. ali@example.com" required>
+    </div>
+
+    <div class="form-group">
+  <label for="phone">Phone Number</label>
+  <input type="text" id="phone" placeholder="e.g. 0301-1234567" required>
+</div>
+
+<div class="form-group">
+  <label for="city">City</label>
+  <input type="text" id="city" placeholder="e.g. Karachi" required>
+</div>
+
+
+    <div class="form-group">
+      <label for="address">Shipping Address</label>
+      <textarea id="address" rows="3" placeholder="e.g. Street #4, Islamabad" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="payment">Payment Method</label>
+      <select id="payment" required>
+        <option value="">Select a method</option>
+        <option value="cod">Cash on Delivery</option>
+        <option value="bank">Bank Transfer</option>
+        <option value="card">Credit/Debit Card</option>
+      </select>
+    </div>
+
+    <button type="submit" onclick="placeOrder(event)">Place Order</button>
+
+        <a href="./index.html" class="home-link">← Back to Home</a>
+  </form>
+
+
+<script type="module">
+
+import { supabase } from "./supabaseConfig.js";
+
+window.placeOrder = async function (event) {
+  event.preventDefault();
+
+  let name = document.getElementById("name").value.trim();
+  let email = document.getElementById("email").value.trim();
+  let phone = document.getElementById("phone").value.trim();
+  let city = document.getElementById("city").value.trim();
+  let address = document.getElementById("address").value.trim();
+  let payment = document.getElementById("payment").value;
+
+
+  if (!name || !email || !address || !payment) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  let cartItems = JSON.parse(localStorage.getItem("selectedCart"));
+
+  if (!cartItems || cartItems.length === 0) {
+    alert("Cart is empty!");
+    return;
+  }
+
+  const { error } = await supabase.from("user_orders").insert([
+    {
+      user_email: email,
+      name: name,
+      phone: phone , // if phone field exists and you want to collect it, add input
+      city: city,  // same for city
+      address: address,
+      cart_items: cartItems,
+    }
+  ]);
+console.log({ name, email, phone, city, address, cartItems });
+
+
+  if (error) {
+    console.error("Order Insert Error:", error);
+    Swal.fire("Error", "Failed to place order. Please try again!", "error");
+    return;
+  }
+
+  // ✅ Clear localStorage
+  localStorage.removeItem("selectedCart");
+  localStorage.removeItem("buyNowData");
+
+  // ✅ SweetAlert Confirmation
+  Swal.fire({
+    icon: 'success',
+    title: 'Order Confirmed!',
+    text: '✅ Your package will be delivered in 3–5 business days.',
+    confirmButtonText: 'OK',
+    allowOutsideClick: false,
+    allowEscapeKey: false
+  }).then(() => {
+    document.getElementById("orderForm").reset();
+    window.location.href = "index.html";
+  });
+};
+
+
+
+
+
+
+
+
+
+
+// import { supabase } from "./supabaseConfig.js";
+
+//   function placeOrder(event) {
+//     event.preventDefault();
+
+//     // Step 1: Get each field by its ID
+//     let name = document.getElementById("name").value;
+//     let email = document.getElementById("email").value;
+//     let address = document.getElementById("address").value;
+//     let payment = document.getElementById("payment").value;
+
+//     if(name == "" || email == "" || address == "" || payment ==""  ){
+//       alert("Please Fill all Feilds")
+//       return
+//     }
+
+//     let buyNowData = {
+//       name: name,
+//       email: email,
+//       address: address,
+//       payment: payment
+//     };
+
+    
+//     localStorage.setItem("buyNowData", JSON.stringify(buyNowData));
+
+//     Swal.fire({
+//       icon: 'success',
+//       title: 'Order Confirmed!',
+//       text: '✅ Your package will be delivered in 3–5 business days.',
+//       confirmButtonText: 'OK',
+//       allowOutsideClick: false,
+//       allowEscapeKey: false
+//     }).then(() => {
+//       document.getElementById("orderForm").reset();
+//       window.location.href = "index.html";
+//     });
+//   }
+</script>
+
+</body>
+</html>

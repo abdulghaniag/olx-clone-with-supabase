@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .admin-panel {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-panel h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 26px;
+      font-weight: 700;
+      color: #1f2937;
+      position: relative;
+    }
+
+    .admin-panel h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: #3b82f6;
+      margin: 10px auto 0;
+      border-radius: 2px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #374151;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #3b82f6;
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+
+    .admin-icon {
+      text-align: center;
+      font-size: 50px;
+      color: #3b82f6;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 576px) {
+      .admin-panel {
+        padding: 25px;
+        margin: 20px;
+      }
+
+      .admin-panel h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-panel" id="adminPanel">
+    <div class="admin-icon"><i class="fas fa-user-shield"></i></div>
+    <h2>Admin Login</h2>
+
+    <form>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="admin@example.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" onclick="login(event)">Login</button>
+    </form>
+  </div>
+
+
+
+  <table border="1px solid black" style="text-align: center;">
+    <thead>
+      <tr>
+        <!-- <th>Name</th> -->
+        <th>User Sign In Data</th>
+        <th>User Add Product</th>
+        <th>User Buy Product</th>
+        <!-- <th>User Sell Product</th> -->
+        <th>User Address</th>
+      </tr>
+    </thead>
+
+    <tbody id="showDetail"></tbody>
+</table>
+
+
+
+<script type="module">
+
+import { supabase } from "./supabaseConfig.js";
+
+
+    let userSigninData = JSON.parse(localStorage.getItem("storeData")) || []
+    let userAddProduct = JSON.parse(localStorage.getItem("allCarts")) || {}
+    let userSelectedItemToBuy = JSON.parse(localStorage.getItem("selectedCart")) || []
+    let userDelivryForm = JSON.parse(localStorage.getItem("buyNowData")) || {}
+    
+    let showDetail = document.getElementById('showDetail')
+
+    showDetail.innerHTML += `
+     <tr>
+      <td>${JSON.stringify( userSigninData)}</td>
+      <td>${JSON.stringify( userAddProduct)}</td>
+      <td>${JSON.stringify( userSelectedItemToBuy)}</td>
+      <td>${JSON.stringify( userDelivryForm)}</td>
+      </tr>
+    `
+
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value.trim();
+    
+    function login(event){
+     event.preventDefault();
+     let adminPanel = document.getElementById("adminPanel");
+     adminPanel.style.display = "none"
+}
+
+
+    // let userSignData = JSON.parse(localStorage.getItem("storeData")) || []
+    // console.log(userSignData);
+    
+
+
+
+
+  </script>
+
+
+
+
+
+
+
+
+</body>
+</html>
