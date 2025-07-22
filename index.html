@@ -524,15 +524,40 @@ color: black;
     <div id="nav-right">
 <span id="log"><a href="./login.html">Login</a></span>
 <span id="sell"><a href="./sign-up.html">Sign up</a></span>
-<!-- <span id="registered">
 
-</span> -->
+<!-- 👤 Avatar and Dropdown -->
 <div id="userDropdown" style="display: none; position: relative;">
-  <img id="userAvatar" src="https://www.w3schools.com/howto/img_avatar.png" alt="User Avatar" onclick="toggleDropdown()"
-    style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;"/>
+  <!-- 👤 Men Icon -->
+  <img id="userAvatar"
+       src="https://www.w3schools.com/howto/img_avatar.png"
+       alt="User Avatar"
+       onclick="toggleDropdown()"
+       style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" />
 
-  <div id="dropdownMenu" style="display: none; position: absolute; top: 50px; right: 0; background: white; border: 1px solid #ccc; padding: 10px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-    <button onclick="logoutUser()" style="background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Logout</button>
+  <!-- ⬇️ Dropdown with Logout -->
+  <div id="dropdownMenu"
+       style="display: none;
+              position: absolute;
+              top: 50px;
+              right: 0;
+              background: white;
+              border: 1px solid #ccc;
+              padding: 10px;
+              border-radius: 8px;
+              box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    
+    <button onclick="logoutUser()"
+            style="background: #ef4444;
+                   color: white;
+                   border: none;
+                   padding: 8px 16px;
+                   border-radius: 6px;
+                   cursor: pointer;
+                   display: flex;
+                   align-items: center;
+                   gap: 8px;">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
   </div>
 </div>
 
@@ -605,46 +630,52 @@ color: black;
 </div>
 
 <script type="module">
-
 import { supabase } from "./supabaseConfig.js";
 
- let loginCheck = localStorage.getItem("justLoggedIn");
-  if (loginCheck === "true") {
+// SHOW avatar if logged in
+window.addEventListener("DOMContentLoaded", function () {
+  let isLoggedIn = localStorage.getItem("isLoggedIn");
+  let justLoggedIn = localStorage.getItem("justLoggedIn");
+
+  if (isLoggedIn === "true" || justLoggedIn === "true") {
     document.getElementById("userDropdown").style.display = "block";
+    document.getElementById("log").style.display = "none";
+    document.getElementById("sell").style.display = "none";
   }
+});
 
+// Dropdown Toggle
 function toggleDropdown() {
-    const menu = document.getElementById("dropdownMenu");
+  const menu = document.getElementById("dropdownMenu");
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
 
-    if (menu.style.display === "block") {
-      menu.style.display = "none";
-    } else {
-      menu.style.display = "block";
-    }
+//  Logout
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("justLoggedIn");
+
+  document.getElementById("dropdownMenu").style.display = "none";
+  document.getElementById("userAvatar").style.display = "none";
+  document.getElementById("log").style.display = "inline-block";
+  document.getElementById("sell").style.display = "inline-block";
+
+  location.reload();
+}
+
+//  Navigate on category select
+function navigateToPage(value) {
+  if (value) {
+    window.location.href = value;
   }
+}
 
-  function logoutUser() {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("justLoggedIn");
-
-    document.getElementById("dropdownMenu").style.display = "none";
-    document.getElementById("userAvatar").style.display = "none";
-
-    location.reload();
-  }
-  
-  function navigateToPage(value){
-    if(value){
-window.location.href = value;
-    }
-  };
-
-// Add product wala kam 
+//  Add Product Button Logic
 window.addProduct = function () {
-  let checkLogin = localStorage.getItem("isLoggedin");
+  let checkLogin = localStorage.getItem("isLoggedIn");
   let checkSign = localStorage.getItem("justLoggedIn");
 
-  if (checkLogin == "true" || checkSign == "true") {
+  if (checkLogin === "true" || checkSign === "true") {
     window.location.href = "addProduct.html";
   } else {
     Swal.fire({
@@ -661,35 +692,12 @@ window.addProduct = function () {
   }
 };
 
+// ⬇️ Export functions to window
 window.toggleDropdown = toggleDropdown;
 window.logoutUser = logoutUser;
-
-
-
-//   function addProduct(){
-//     let checkLogin = localStorage.getItem("isLoggedin");
-//     let checkSign = localStorage.getItem("justLoggedIn");
-//     if(checkLogin == "true" || checkSign == "true"){
-//       // alert("Add to Product Contniue");
-//      window.location.href= "addProduct.html";
-//     }
-//     else {
-//     // Show auto-closing SweetAlert and redirect after 1.5 sec
-//     Swal.fire({
-//       icon: "warning",
-//       title: "Please First Login & Sign-up ",
-//       text: "You will be redirected to login page...",
-//       timer: 1500,
-//       showConfirmButton: false
-//     });
-
-//     setTimeout(() => {
-//       window.location.href = "login.html";
-//     }, 1500);
-//   }
-// }
-
+window.navigateToPage = navigateToPage;
 </script>
+
 <script src="cartDetail.js"></script>
 
 

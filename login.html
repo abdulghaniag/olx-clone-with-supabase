@@ -136,7 +136,6 @@
     </div>
 
     <script type="module">
-
 import { supabase } from "./supabaseConfig.js";
 
 document.getElementById("loginBtn").addEventListener("click", async function () {
@@ -148,45 +147,32 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
       icon: "error",
       title: "Oops...",
       text: "Please fill in all fields",
-      footer: '<a href="#">Why do I have this issue?</a>'
     });
     return;
   }
 
-  // ✅ Check user in Supabase
-  const { data, error } = await supabase
-    .from("user_details")
-    .select("*")
-    .eq("email", loginEmail)
-    .eq("password", loginPassword);
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: loginEmail,
+    password: loginPassword,
+  });
 
   if (error) {
-    console.error("Supabase error:", error);
-    Swal.fire("Error", "Database connection failed!", "error");
-    return;
-  }
-
-  if (data.length === 0) {
     Swal.fire({
       icon: "error",
-      title: "Oops...",
-      text: "Incorrect Email or Password!",
-      footer: '<a href="#">Try again or sign up</a>'
+      title: "Login Failed!",
+      text: error.message.includes("Email not confirmed")
+        ? "Please confirm your email before logging in."
+        : "Incorrect email or password!",
     });
     return;
   }
 
-  // ✅ Login success
-// ✅ Login success
-const userData = data[0];
-localStorage.setItem("justLoggedIn", "true");
-localStorage.setItem("isLoggedIn", "true");
-localStorage.setItem("loggedInUser", userData.email);  // ✅ Fix here
-localStorage.setItem("storeData", "yes");              // ✅ Optional if used
+  localStorage.setItem("isLoggedIn", "true");
+  localStorage.setItem("loggedInUser", loginEmail);
 
   Swal.fire({
     title: "Login Successful!",
-    icon: "success"
+    icon: "success",
   });
 
   setTimeout(() => {
@@ -199,89 +185,10 @@ localStorage.setItem("storeData", "yes");              // ✅ Optional if used
     }
   }, 1600);
 
-  // Clear fields
   document.getElementById("loginEmail").value = "";
   document.getElementById("loginPassword").value = "";
 });
 
-
-
-
-
-
-
-
-
-
-
-// import { supabase } from "./supabaseConfig.js";
-
-
-
-// document.getElementById("loginBtn").addEventListener("click", function () {
-//   let loginEmail = document.getElementById("loginEmail").value.trim();
-//   let loginPassword = document.getElementById("loginPassword").value.trim();
-
-//   if (!loginEmail || !loginPassword) {
-//     Swal.fire({
-//       icon: "error",
-//       title: "Oops...",
-//       text: "Please fill in all fields",
-//       footer: '<a href="#">Why do I have this issue?</a>'
-//     });
-//     return;
-//   }
-
-//   //  Get saved users
-//   let savedData = JSON.parse(localStorage.getItem("storeData")) || [];
-//   let found = false;
-
-//   for (let i = 0; i < savedData.length; i++) {
-//     if (
-//       savedData[i].email === loginEmail &&
-//       savedData[i].password === loginPassword
-//     ) {
-//       found = true;
-//       break;
-//     }
-//   }
-
-//   //  If login matched
-//   if (found) {
-//     localStorage.setItem("justLoggedIn", "true");
-//     localStorage.setItem("isLoggedIn", "true"); 
-//     localStorage.setItem("loggedInUser" , loginEmail)
-
-//     Swal.fire({
-//       title: "Login Successful!",
-//       icon: "success",
-//       draggable: true
-//     });
-
-//     //  Redirect to product page if needed
-//     setTimeout(() => {
-//       let redirectTo = localStorage.getItem("redirectBack");
-//       if (redirectTo) {
-//         localStorage.removeItem("redirectBack");
-//         window.location.href = redirectTo;
-//       } else {
-//         window.location.href = "index.html"; 
-//       }
-//     }, 1600);
-//   } else {
-//     //  If login fail
-//     Swal.fire({
-//       icon: "error",
-//       title: "Oops...",
-//       text: "Incorrect email or Password!",
-//       footer: '<a href="#">Why do I have this issue?</a>'
-//     });
-//   }
-
-//   //  Clear fields
-//   document.getElementById("loginEmail").value = "";
-//   document.getElementById("loginPassword").value = "";
-// });
 </script>
 </body>
 

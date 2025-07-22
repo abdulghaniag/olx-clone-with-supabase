@@ -4,6 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Add Product</title>
+  <script>
+  let isLoggedIn = localStorage.getItem("isLoggedIn");
+  if (isLoggedIn !== "true") {
+    // Prevent rendering anything
+    document.documentElement.innerHTML = "";
+    // Optional: Save the path to redirect back after login
+    localStorage.setItem("redirectBack", window.location.pathname);
+    // Redirect to login immediately
+    window.location.href = "login.html";
+  }
+</script>
+
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     body {
@@ -68,11 +80,6 @@ margin-bottom: 10px;
 .home-link:hover {
   background-color: #0056b3;
 }
-
-
-
-
-
 @media (max-width: 768px) {
   body {
     padding: 20px;
@@ -171,7 +178,6 @@ margin-bottom: 10px;
 <button id="saveBtn">Save Product</button>
 </div>
 
-
 <script type="module">
 import { supabase } from "./supabaseConfig.js";
 
@@ -179,7 +185,6 @@ document.getElementById("saveBtn").addEventListener("click", saveProduct);
 
 async function saveProduct() {
   let existing = JSON.parse(localStorage.getItem("userSellItem")) || [];
-
   let name = document.getElementById("name").value.trim();
   let tittle = document.getElementById("tittle").value.trim();
   let price = document.getElementById("price").value.trim();
@@ -223,7 +228,7 @@ async function saveProduct() {
   localStorage.setItem("selectProduct", JSON.stringify(newProduct));
 
   
-// 👇 Yeh line ADD karo - yeh sabse important hai
+//  yeh sabse important hai
 let allProductArray = JSON.parse(localStorage.getItem("allProduct")) || [];
 allProductArray.push(newProduct);
 localStorage.setItem("allProduct", JSON.stringify(allProductArray));
@@ -259,76 +264,6 @@ localStorage.setItem("allProduct", JSON.stringify(allProductArray));
   }, 1500);
 }
 </script>
-
-
-
-
-
-
-
-
-
-
-<!-- <script type="module">
-
-import { supabase } from "./supabaseConfig.js";
-
-function saveProduct(){  
-  let existing = JSON.parse(localStorage.getItem("userSellItem")) || [];
-
-  let name = document.getElementById("name").value.trim();
-  let tittle = document.getElementById("tittle").value.trim();
-  let price = document.getElementById("price").value.trim();
-  let description = document.getElementById("description").value.trim();
-  let condition = document.getElementById("condition").value.trim();
-  let image = document.getElementById("image").value.trim();
-   
-      
-   if(!name || !tittle || !price || !description || !condition || !image){
-    Swal.fire({
-  icon: "error",
-  title: "Oops...",
-  text: "Please fill all feild!",
-  footer: '<a href="#">Why do I have this issue?</a>'
-});
-    // alert("Please fill all feild");
-    return; 
-}
-
-let imageArray = image.split(",").map(img => img.trim().replace(/['"]+/g, ""));
-
-    let newProduct = {
-        name : name,
-        tittle: tittle,
-        price: `Rs. ${price}`,
-        display: description,
-        ram: condition,
-        image: imageArray[0] || "./images/services-sell.jpg",
-        images: imageArray
-    };
-
-    existing.push(newProduct);
- localStorage.setItem("userSellItem" ,JSON.stringify(existing))
-
-    // ab jo sara data local storage main save ho ga us ki key "allProduct" hai 
- localStorage.setItem("selectProduct" ,JSON.stringify(newProduct));
- 
-
-Swal.fire({
-  icon: "success",
-  title: "Product Saved Successfully!",
-  showConfirmButton: false,
-  timer: 1500 // 2 seconds
-});
-
-setTimeout(() => {
-  window.location.href = "index.html";
-}, 1500);
-
-// alert("Product Saved Successfully")
-// window.location.href = "index.html"
-}
-</script> -->
 
 </body>
 </html>

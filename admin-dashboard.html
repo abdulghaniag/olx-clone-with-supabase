@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      background-color: #f4f6f8;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #1f2937;
+      height: 100vh;
+      color: #fff;
+      padding: 30px 20px;
+      position: fixed;
+    }
+
+    .sidebar h2 {
+      font-size: 24px;
+      margin-bottom: 40px;
+      text-align: center;
+      color: #3b82f6;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #cbd5e1;
+      text-decoration: none;
+      margin: 15px 0;
+      font-size: 16px;
+      transition: 0.2s;
+    }
+
+    .sidebar a:hover {
+      color: #fff;
+    }
+
+    .main {
+      margin-left: 250px;
+      padding: 30px;
+      width: calc(100% - 250px);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .topbar h1 {
+      font-size: 24px;
+      color: #1f2937;
+    }
+
+    .logout-btn {
+      padding: 10px 20px;
+      background-color: #ef4444;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .card h3 {
+      font-size: 18px;
+      color: #1f2937;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 24px;
+      color: #3b82f6;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        margin: 0;
+        width: 100%;
+      }
+    }
+
+    table {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin-top: 20px;
+      width: 100%;
+      background-color: #fff;
+      border-collapse: collapse;
+    }
+
+    td, th {
+      text-align: left;
+      padding: 12px 15px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    thead {
+      background-color: #3b82f6;
+      color: white;
+    }
+    .action-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.delete-btn {
+  background-color: #ef4444;
+}
+
+.delete-btn:hover {
+  background-color: #dc2626;
+  transform: scale(1.05);
+}
+
+.edit-btn {
+  background-color: #3b82f6;
+}
+
+.edit-btn:hover {
+  background-color: #2563eb;
+  transform: scale(1.05);
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="#" id="usersLink"><i class="fas fa-users"></i> Users</a>
+    <a href="#"><i class="fas fa-box-open"></i> Products</a>
+    <a href="#"><i class="fas fa-shopping-cart"></i> Orders</a>
+    <a href="#"><i class="fas fa-chart-line"></i> Analytics</a>
+    <a href="#"><i class="fas fa-cog"></i> Settings</a>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>Dashboard</h1>
+      <button class="logout-btn" id="logout">Logout</button>
+    </div>
+
+    <div class="cards" id="dashboardSection">
+      <div class="card">
+        <h3>Total Users</h3>
+        <p>102</p>
+      </div>
+      <div class="card">
+        <h3>Total Products</h3>
+        <p>54</p>
+      </div>
+      <div class="card">
+        <h3>Total Orders</h3>
+        <p>76</p>
+      </div>
+      <div class="card">
+        <h3>Revenue</h3>
+        <p>$5,200</p>
+      </div>
+    </div>
+
+    <div id="usersSection" style="display: none; margin-top: 20px;">
+      <h2 >👥 All Users</h2>
+      <table id="userTable" border="1" cellpadding="10">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>CNIC</th>
+            <th>Phone</th>
+            <th>Password</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="userBody">
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { supabase } from "./supabaseConfig.js";
+
+    const { data, error } = await supabase.auth.getSession();
+    if (!data.session) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Unauthorized',
+        text: 'You must login first!',
+      }).then(() => {
+        window.location.href = "admin.html";
+      });
+    }
+
+    // ✅ Logout
+    document.getElementById("logout").addEventListener("click", async () => {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        Swal.fire("Error", error.message, "error");
+      } else {
+        Swal.fire({
+          icon: "success",
+          title: "Logged Out",
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          window.location.href = "admin.html";
+        });
+      }
+    });
+
+    //  Show users table on click
+    document.getElementById("usersLink").addEventListener("click", () => {
+    //   document.getElementById("dashboardSection").style.display = "none";
+      document.getElementById("usersSection").style.display = "block";
+    });
+
+    async function fetchAllUsers() {
+      const { data, error } = await supabase.from("user_details").select("*");
+      if (error) {
+        console.error("Error fetching users:", error.message);
+        return;
+      }
+
+      const userBody = document.getElementById("userBody");
+      userBody.innerHTML = "";
+
+      data.forEach((user, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+          <td>${user.cnic }</td>
+          <td>${user.password }</td>
+          <td>${user.phone || "N/A"}</td>
+          <td>
+        <button class="action-btn delete-btn" onclick="deleteUser(${user.id})">Delete</button>
+        <button class="action-btn edit-btn" onclick="editUser(${user.id}, '${user.name}', '${user.email}', '${user.phone}')">Edit</button>
+          </td>
+        `;
+        userBody.appendChild(tr);
+      });
+    }
+
+    fetchAllUsers();
+
+// delete wala kam 
+    window.deleteUser = async function (userId) {
+  const confirmation = await Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this user!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+  });
+
+  if (confirmation.isConfirmed) {
+    const { error } = await supabase
+      .from("user_details")
+      .delete()
+      .eq("id", userId);
+
+    if (error) {
+      Swal.fire("Error", error.message, "error");
+    } else {
+      Swal.fire("Deleted!", "User has been deleted.", "success");
+      fetchAllUsers(); // Refresh table
+    }
+  }
+};
+
+
+// Edit wala kam 
+window.editUser = async function (id, name, email, phone) {
+  const { value: formValues } = await Swal.fire({
+    title: "Edit User",
+    html: `
+      <input id="swal-name" class="swal2-input" placeholder="Name" value="${name}">
+      <input id="swal-email" class="swal2-input" placeholder="Email" value="${email}">
+      <input id="swal-phone" class="swal2-input" placeholder="Phone" value="${phone}">
+    `,
+    focusConfirm: false,
+    preConfirm: () => {
+      return {
+        name: document.getElementById("swal-name").value,
+        email: document.getElementById("swal-email").value,
+        phone: document.getElementById("swal-phone").value,
+      };
+    }
+  });
+
+  if (formValues) {
+    const { error } = await supabase
+      .from("user_details")
+      .update({
+        name: formValues.name,
+        email: formValues.email,
+        phone: formValues.phone,
+      })
+      .eq("id", id);
+
+    if (error) {
+      Swal.fire("Error", error.message, "error");
+    } else {
+      Swal.fire("Success", "User updated successfully!", "success");
+      fetchAllUsers(); 
+    }
+  }
+};
+
+
+  </script>
+
+</body>
+</html>

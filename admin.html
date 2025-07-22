@@ -2,197 +2,293 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- ✅ SweetAlert2 CDN -->
+
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Inter', sans-serif;
-      background: #f4f6f8;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
     }
 
-    .admin-panel {
+    .login-box {
       background: #ffffff;
-      padding: 40px;
-      border-radius: 16px;
-      max-width: 500px;
+      padding: 50px 40px;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
       width: 100%;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
     }
 
-    .admin-panel h2 {
+    .login-box h2 {
       text-align: center;
       margin-bottom: 30px;
-      font-size: 26px;
-      font-weight: 700;
       color: #1f2937;
-      position: relative;
-    }
-
-    .admin-panel h2::after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 3px;
-      background: #3b82f6;
-      margin: 10px auto 0;
-      border-radius: 2px;
+      font-size: 28px;
+      font-weight: 700;
     }
 
     .form-group {
       margin-bottom: 20px;
     }
 
-    label {
+    .form-group label {
       display: block;
       margin-bottom: 6px;
       color: #374151;
       font-weight: 600;
     }
 
-    input {
+    .form-group input {
       width: 100%;
-      padding: 12px;
+      padding: 12px 15px;
       border: 1px solid #d1d5db;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 15px;
-      transition: 0.3s;
+      transition: all 0.3s ease;
     }
 
-    input:focus {
-      outline: none;
+    .form-group input:focus {
       border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      outline: none;
     }
 
     button {
       width: 100%;
       padding: 14px;
-      background-color: #3b82f6;
-      border: none;
+      background: linear-gradient(to right, #3b82f6, #2563eb);
       color: white;
       font-size: 16px;
       font-weight: bold;
-      border-radius: 8px;
+      border: none;
+      border-radius: 10px;
       cursor: pointer;
-      transition: 0.3s ease;
+      transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: #2563eb;
+      background: linear-gradient(to right, #2563eb, #1d4ed8);
     }
 
-    .admin-icon {
+    .icon {
       text-align: center;
       font-size: 50px;
       color: #3b82f6;
       margin-bottom: 15px;
     }
 
-    @media (max-width: 576px) {
-      .admin-panel {
-        padding: 25px;
-        margin: 20px;
+    .footer-text {
+      text-align: center;
+      font-size: 13px;
+      margin-top: 20px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 500px) {
+      .login-box {
+        padding: 30px 20px;
       }
 
-      .admin-panel h2 {
-        font-size: 22px;
+      .login-box h2 {
+        font-size: 24px;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="admin-panel" id="adminPanel">
-    <div class="admin-icon"><i class="fas fa-user-shield"></i></div>
+  <div class="login-box">
+    <div class="icon">
+      <i class="fas fa-user-shield"></i>
+    </div>
     <h2>Admin Login</h2>
-
     <form>
       <div class="form-group">
         <label for="email">Email Address</label>
-        <input type="email" id="email" placeholder="admin@example.com" required>
+        <input type="email" id="email" placeholder="admin@example.com" required />
       </div>
-
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" placeholder="••••••••" required>
+        <input type="password" id="password" placeholder="••••••••" required />
       </div>
-
-      <button type="submit" onclick="login(event)">Login</button>
+      <button type="submit">Login</button>
     </form>
+    <div class="footer-text">
+      &copy; 2025 Admin Panel by YourProject
+    </div>
   </div>
 
-
-
-  <table border="1px solid black" style="text-align: center;">
-    <thead>
-      <tr>
-        <!-- <th>Name</th> -->
-        <th>User Sign In Data</th>
-        <th>User Add Product</th>
-        <th>User Buy Product</th>
-        <!-- <th>User Sell Product</th> -->
-        <th>User Address</th>
-      </tr>
-    </thead>
-
-    <tbody id="showDetail"></tbody>
-</table>
-
-
-
-<script type="module">
-
-import { supabase } from "./supabaseConfig.js";
-
-
-    let userSigninData = JSON.parse(localStorage.getItem("storeData")) || []
-    let userAddProduct = JSON.parse(localStorage.getItem("allCarts")) || {}
-    let userSelectedItemToBuy = JSON.parse(localStorage.getItem("selectedCart")) || []
-    let userDelivryForm = JSON.parse(localStorage.getItem("buyNowData")) || {}
-    
-    let showDetail = document.getElementById('showDetail')
-
-    showDetail.innerHTML += `
-     <tr>
-      <td>${JSON.stringify( userSigninData)}</td>
-      <td>${JSON.stringify( userAddProduct)}</td>
-      <td>${JSON.stringify( userSelectedItemToBuy)}</td>
-      <td>${JSON.stringify( userDelivryForm)}</td>
-      </tr>
-    `
-
-    let email = document.getElementById("email").value.trim();
-    let password = document.getElementById("password").value.trim();
-    
-    function login(event){
-     event.preventDefault();
-     let adminPanel = document.getElementById("adminPanel");
-     adminPanel.style.display = "none"
-}
-
-
-    // let userSignData = JSON.parse(localStorage.getItem("storeData")) || []
-    // console.log(userSignData);
-    
-
-
-
-
-  </script>
-
-
-
-
-
-
-
-
+  <script type="module" src="admin.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .login-box {
+      background: #ffffff;
+      padding: 50px 40px;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #1f2937;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: #374151;
+      font-weight: 600;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(to right, #3b82f6, #2563eb);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #2563eb, #1d4ed8);
+    }
+
+    .icon {
+      text-align: center;
+      font-size: 50px;
+      color: #3b82f6;
+      margin-bottom: 15px;
+    }
+
+    .footer-text {
+      text-align: center;
+      font-size: 13px;
+      margin-top: 20px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 500px) {
+      .login-box {
+        padding: 30px 20px;
+      }
+
+      .login-box h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <div class="icon">
+      <i class="fas fa-user-shield"></i>
+    </div>
+    <h2>Admin Login</h2>
+    <form>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="admin@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required />
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <div class="footer-text">
+      &copy; 2025 Admin Panel by YourProject
+    </div>
+  </div>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html> -->

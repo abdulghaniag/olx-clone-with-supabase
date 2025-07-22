@@ -4,6 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Cart</title>
+  <script>
+  let isLoggedIn = localStorage.getItem("isLoggedIn");
+  if (isLoggedIn !== "true") {
+    // Prevent rendering anything
+    document.documentElement.innerHTML = "";
+
+    // Optional: Save the path to redirect back after login
+    localStorage.setItem("redirectBack", window.location.pathname);
+
+    // Redirect to login immediately
+    window.location.href = "login.html";
+  }
+</script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -208,7 +222,7 @@ async function renderCart() {
   cartContainer.innerHTML = html;
 }
 
-// ✅ Quantity increase
+// Quantity increase
 window.increaseQuantity = async function (id, currentQty) {
   await supabase
     .from("user_cart")
@@ -218,19 +232,19 @@ window.increaseQuantity = async function (id, currentQty) {
   renderCart();
 };
 
-// ✅ Remove item
+//  Remove item
 window.removeItem = async function (id) {
   await supabase.from("user_cart").delete().eq("id", id);
   renderCart();
 };
 
-// ✅ Clear all
+// Clear all
 window.clearCart = async function () {
   await supabase.from("user_cart").delete().eq("user_email", email);
   renderCart();
 };
 
-// ✅ Buy Now
+//  Buy Now
 window.buyNow = async function () {
     const { data, error } = await supabase
       .from("user_cart")
@@ -247,97 +261,6 @@ window.buyNow = async function () {
   };
 
   renderCart();
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { supabase } from "./supabaseConfig.js";
-
-//   let email = localStorage.getItem("loggedInUser");
-//   let allCarts = JSON.parse(localStorage.getItem("allCarts")) || {};
-//   let cart = allCarts[email] || [];
-//   let cartContainer = document.getElementById("cartContainer");
-
-//   function renderCart() {
-//     if (cart.length === 0) {
-//       cartContainer.innerHTML = `<div class="empty">Your cart is empty 😢</div>`;
-//       return;
-//     }
-
-//     let total = 0;
-//     let html = "";
-
-//     for (let i = 0; i < cart.length; i++) {
-//       let item = cart[i];
-//       let itemTotal = item.quantity * item.price;
-//       total += itemTotal;
-
-//     html += `
-//           <div class="cart-item">
-//             <img src="${item.image}" alt="${item.name}">
-//             <div class="item-details">
-//               <h3>${item.name}</h3>
-//               <p>Price: Rs. ${item.price}</p>
-//               <p>Quantity: ${item.quantity}</p>
-//               <p>Subtotal: Rs. ${itemTotal}</p>
-//               <button onclick="increaseQuantity(${i})">+ Add to Cart</button>
-//               <button onclick="removeItem(${i})" style="background:red; color:white;">Remove</button>
-//             </div>
-//           </div>
-//         `;
-//     }
-//     html += `
-//       <div class="total">Total: Rs. ${total}</div>
-//       <div style="text-align: right; margin-top: 10px;">
-//         <button onclick="clearCart()" id="clearBtn">Clear Cart 🧹</button>
-//         <button id="buyNow" onclick="buyNow()" >Buy Now</button>
-//         </div>
-//     `;
-    
-//     cartContainer.innerHTML = html;
-//   }
-
-//   function increaseQuantity(index) {
-//     cart[index].quantity += 1;
-//     saveCart();
-//     renderCart();
-//     // localStorage.setItem("cart", JSON.stringify(cart));
-//   }
-
-//   function removeItem(index) {
-//     cart.splice(index, 1); 
-//     // localStorage.setItem("cart", JSON.stringify(cart));
-//     saveCart();
-//     renderCart();
-//   }
-
-//   function clearCart() {
-//     cart = [];
-//     saveCart();
-//     renderCart();
-//     // localStorage.removeItem("cart");
-//   }
-
-//   function saveCart(){
-//     allCarts[email] = cart;
-//     localStorage.setItem("allCarts",JSON.stringify(allCarts));
-//   }
-
-//   function buyNow(){
-//     localStorage.setItem("selectedCart" , JSON.stringify(cart));
-//     window.location.href = "buyNow.html";
-
-//   }
-//   renderCart();
 
 </script>
 
