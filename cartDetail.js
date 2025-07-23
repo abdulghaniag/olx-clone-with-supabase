@@ -5,7 +5,7 @@
         price: "Rs. 420,000",
         display : " Display: 6.7 Super Retina XDR",
         ram : " RAM: 8 GB",
-        image: "./images/mobile-sell.avif" , 
+        image: "./images/iphone-change.avif" , 
         images : [
           "./images/iphone6.avif",
             // "./images/iphone19.avif" ,
@@ -103,7 +103,7 @@
         price: "Rs. 165,000",
          display : " Display: 6.7 Super Retina XDR",
         ram : " RAM: 8 GB",
-        image: "./images/bike--sell.jpg",
+        image: "./images/bike-change.avif",
         images : [
               // "./images/bike3.avif",
               "./images/bike4.avif",
