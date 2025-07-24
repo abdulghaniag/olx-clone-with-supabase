@@ -165,8 +165,8 @@ for (let i = 0; i < allCombined.length; i++) {
       <p>${allCombined[i].price}</p>
       <p>${allCombined[i].display}</p>
       <p>${allCombined[i].ram}</p>
-      <button onclick="viewDetail(${i})" style="margin: 0 16px 16px; padding: 10px 0; width: calc(100% - 32px); border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: background 0.3s ease;">View Details</button>
-    </div>
+    <button onclick="viewDetail(${i})" class="view-btn">View Details</button>
+      </div>
   `;
 }
 

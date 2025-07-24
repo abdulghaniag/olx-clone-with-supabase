@@ -165,7 +165,7 @@
 
   </style>
 </head>
-<body>
+<body style="display: none">
 
   <div class="sidebar">
     <h2>Admin Panel</h2>
@@ -226,7 +226,10 @@
     import { supabase } from "./supabaseConfig.js";
 
     const { data, error } = await supabase.auth.getSession();
-    if (!data.session) {
+
+    const session = data.session;
+    const adminEmail = "ghani@gmail.com"
+    if (!session) {
       Swal.fire({
         icon: 'error',
         title: 'Unauthorized',
@@ -234,9 +237,21 @@
       }).then(() => {
         window.location.href = "admin.html";
       });
-    }
+    }else if(session.user.email !== adminEmail){
+        await supabase.auth.signOut();
+        Swal.fire({
+          icon: 'error',
+          title: 'Access Denied',
+          text: 'You are not authorized to access the admin panel!',
+        }).then(() => {
+          window.location.href = "index.html";
+        });
+      }else{
+          document.body.style.display = "block"; 
+      }
 
-    // ✅ Logout
+
+    //  Logout
     document.getElementById("logout").addEventListener("click", async () => {
       const { error } = await supabase.auth.signOut();
       if (error) {

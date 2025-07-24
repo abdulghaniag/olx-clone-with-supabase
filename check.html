@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Navbar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    nav {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-left img {
+      height: 40px;
+    }
+
+    .nav-left a {
+      text-decoration: none;
+      color: #1f2937;
+      font-weight: 500;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .nav-left a:hover {
+      color: #3b82f6;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-right a {
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      color: #374151;
+      border: 1px solid transparent;
+    }
+
+    .nav-right a:hover {
+      background-color: #f3f4f6;
+      border-color: #d1d5db;
+    }
+
+    .avatar {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    /* 🔐 When user is logged in (simulate this class to test) */
+    .logged-in .nav-right .login,
+    .logged-in .nav-right .signup,
+    .logged-in .nav-right .signfree {
+      display: none;
+    }
+
+    .logged-in .nav-right .avatar {
+      display: inline-block;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .nav-left, .nav-right {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Add class "logged-in" on <nav> to simulate signed-in state -->
+  <nav>
+    <div class="nav-left">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/OLX_Logo_2021.svg" alt="Logo">
+      <a href="#">Motors</a>
+      <a href="#">Property</a>
+    </div>
+
+    <div class="nav-right">
+      <a href="login.html" class="login">Login</a>
+      <a href="sign-up.html" class="signup">Sign Up</a>
+      <a href="#" class="signfree">Sign Free</a>
+      <a href="cart.html">🛒 Go to Cart</a>
+      <img src="https://www.w3schools.com/howto/img_avatar.png" alt="User Avatar" class="avatar" />
+    </div>
+  </nav>
+
+</body>
+</html>

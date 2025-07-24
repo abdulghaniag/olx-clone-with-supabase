@@ -287,21 +287,6 @@ window.addToCart = async function () {
   let isLoggedIn = localStorage.getItem("isLoggedIn");
   let email = localStorage.getItem("loggedInUser");
 
-  // if (!storeData) {
-  //   localStorage.setItem("redirectBack", "display.html");
-  //   Swal.fire({
-  //     icon: "warning",
-  //     title: "Please Sign Up First",
-  //     text: "You need to create an account before adding to cart.",
-  //     timer: 1500,
-  //     showConfirmButton: false
-  //   });
-  //   setTimeout(() => {
-  //     window.location.href = "sign-up.html";
-  //   }, 1500);
-  //   return;
-  // }
-
   if (!isLoggedIn || !email) {
     localStorage.setItem("redirectBack", "display.html");
     Swal.fire({
@@ -317,10 +302,8 @@ window.addToCart = async function () {
     return;
   }
 
-  //  Clean price
   let cleanPrice = parseInt(data.price.toString().replace(/\D/g, ""));
 
-  // Insert into Supabase
   const { error } = await supabase.from("user_cart").insert([
     {
       user_email: email,
