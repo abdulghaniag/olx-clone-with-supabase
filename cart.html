@@ -7,13 +7,10 @@
   <script>
   let isLoggedIn = localStorage.getItem("isLoggedIn");
   if (isLoggedIn !== "true") {
-    // Prevent rendering anything
     document.documentElement.innerHTML = "";
 
-    // Optional: Save the path to redirect back after login
     localStorage.setItem("redirectBack", window.location.pathname);
 
-    // Redirect to login immediately
     window.location.href = "login.html";
   }
 </script>
@@ -149,12 +146,12 @@
   <div class="cart-container" id="cartContainer"></div>
 
 
-<!-- 🛒 Cart Icon with Chat -->
+<!-- 🛒 Cart Icon with Chat
 <div id="chatIcon" style="position: fixed; bottom: 30px; right: 30px; background-color: #3b82f6; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 1000;">
   <i class="fas fa-comments" style="color: white; font-size: 24px;"></i>
 </div>
 
-<!-- 💬 Chat Box -->
+💬 Chat Box
 <div id="chatBox" style="position: fixed; bottom: 100px; right: 30px; width: 320px; height: 400px; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); display: none; flex-direction: column; overflow: hidden; z-index: 1000;">
   <div style="background-color: #3b82f6; color: white; padding: 14px; font-weight: bold;">
     🗨️ Live Chat
@@ -164,7 +161,7 @@
     <input type="text" id="chatInput" placeholder="Type a message..." style="flex: 1; padding: 10px; border: none; font-size: 14px;">
     <button id="sendBtn" style="background: #3b82f6; color: white; border: none; padding: 10px 14px; cursor: pointer;">Send</button>
   </div>
-</div>
+ </div> -->
 
 <script type="module">
 
@@ -279,39 +276,39 @@ window.buyNow = async function () {
   renderCart();
 
 
-  // ChatApp wala Kam
-  const chatIcon = document.getElementById("chatIcon");
-  const chatBox = document.getElementById("chatBox");
-  const sendBtn = document.getElementById("sendBtn");
-  const chatInput = document.getElementById("chatInput");
-  const chatMessages = document.getElementById("chatMessages");
+  // // ChatApp wala Kam
+  // const chatIcon = document.getElementById("chatIcon");
+  // const chatBox = document.getElementById("chatBox");
+  // const sendBtn = document.getElementById("sendBtn");
+  // const chatInput = document.getElementById("chatInput");
+  // const chatMessages = document.getElementById("chatMessages");
 
-  chatIcon.addEventListener("click", () => {
-    chatBox.style.display = chatBox.style.display === "none" ? "flex" : "none";
-  });
+  // chatIcon.addEventListener("click", () => {
+  //   chatBox.style.display = chatBox.style.display === "none" ? "flex" : "none";
+  // });
 
-  sendBtn.addEventListener("click", () => {
-    const msg = chatInput.value.trim();
-    if (!msg) return;
+  // sendBtn.addEventListener("click", () => {
+  //   const msg = chatInput.value.trim();
+  //   if (!msg) return;
 
-    // User message
-    const userMsg = document.createElement("div");
-    userMsg.textContent = "🧑 You: " + msg;
-    userMsg.style.marginBottom = "8px";
-    chatMessages.appendChild(userMsg);
+  //   // User message
+  //   const userMsg = document.createElement("div");
+  //   userMsg.textContent = "🧑 You: " + msg;
+  //   userMsg.style.marginBottom = "8px";
+  //   chatMessages.appendChild(userMsg);
 
-    chatInput.value = "";
+  //   chatInput.value = "";
 
-    // Auto-reply (dummy)
-    setTimeout(() => {
-      const reply = document.createElement("div");
-      reply.textContent = "🤖 Bot: We'll get back to you soon!";
-      reply.style.marginBottom = "8px";
-      chatMessages.appendChild(reply);
+  //   // Auto-reply (dummy)
+  //   setTimeout(() => {
+  //     const reply = document.createElement("div");
+  //     reply.textContent = "🤖 Bot: We'll get back to you soon!";
+  //     reply.style.marginBottom = "8px";
+  //     chatMessages.appendChild(reply);
 
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 1000);
-  });
+  //     chatMessages.scrollTop = chatMessages.scrollHeight;
+  //   }, 1000);
+  // });
 
 
 </script>

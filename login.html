@@ -111,6 +111,59 @@
 .home-link:hover {
   background-color: #0056b3;
 }
+/* Loader Css  */
+#login-loader {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.85);
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader-spinner {
+  display: flex;
+  gap: 5px;
+  font-size: 30px;
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+  color: #2563eb;
+}
+
+.loader-spinner span {
+  animation: bounce 0.6s infinite alternate;
+}
+
+.loader-spinner span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.loader-spinner span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.loader-spinner span:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.loader-spinner span:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.loader-spinner span:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.loader-spinner span:nth-child(7) {
+  animation-delay: 0.6s;
+}
+
+@keyframes bounce {
+  to {
+    transform: translateY(-15px);
+    color: #1d4ed8;
+  }
+}
+
 
     </style>
 </head>
@@ -134,13 +187,25 @@
         <button id="loginBtn">Login</button>
     </div>
     </div>
+    <!-- loader  -->
+     <!-- 🔄 Loader for Login -->
+<div id="login-loader" style="display: none;">
+  <div class="loader-spinner">
+    <span>L</span><span>o</span><span>a</span><span>d</span><span>i</span><span>n</span><span>g</span>
+  </div>
+</div>
+
 
     <script type="module">
 import { supabase } from "./supabaseConfig.js";
 
 document.getElementById("loginBtn").addEventListener("click", async function () {
+  
+  document.getElementById("login-loader").style.display = "flex";
+
   let loginEmail = document.getElementById("loginEmail").value.trim();
   let loginPassword = document.getElementById("loginPassword").value.trim();
+  // let loginLoader = document.getElementById("login-loader").value.trim();
 
   if (!loginEmail || !loginPassword) {
     Swal.fire({
@@ -169,6 +234,7 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
 
   localStorage.setItem("isLoggedIn", "true");
   localStorage.setItem("loggedInUser", loginEmail);
+        document.getElementById("login-loader").style.display = "none";
 
   Swal.fire({
     title: "Login Successful!",

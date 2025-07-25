@@ -8,21 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    
    <style>
-   /* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-/* #nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 10px 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  flex-wrap: wrap;
-} */
  #nav {
   display: flex;
   justify-content: space-between;
@@ -34,11 +24,6 @@
   border-bottom: 1px solid #e5e7eb;
   border-radius: 0 0 12px 12px;
 }
-
-
-
-
-
 #nav-left {
   display: flex;
   align-items: center;
@@ -55,8 +40,6 @@
   gap: 15px;
   flex-wrap: wrap;
 }
-
-
 
 #top-link a,
 #nav-right a {
@@ -76,39 +59,16 @@
   background-color: #f1f5f9;
   color: #2563eb;
 }
-
-/* #top-link a {
-  font-size: 16px;
-  font-weight: 600;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #1f2937;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-#top-link a:hover {
-  color: #3b82f6;
-}
-
-#nav-right a {
-  font-size: 15px;
-  font-weight: 500;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #374151;
-  text-decoration: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-
-#nav-right a:hover {
-  background-color: #f1f5f9;
-  color: #2563eb;
-} */
 #go-to-cart {
   font-weight: bold;
 }
+/* GPT Check Avater  */
+#nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px; /* Space between Go to Cart and Avatar */
+}
+
 
 #userDropdown img {
   transition: transform 0.3s;
@@ -116,6 +76,7 @@
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
+
 }
 #userDropdown img:hover {
   transform: scale(1.1);
@@ -811,7 +772,6 @@
 </div>
 
 <!-- signup section  -->
- <!-- 🔲 Sign Free Popup -->
 <div id="signupModal" class="modal-overlay">
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -838,7 +798,6 @@
 <script type="module">
 import { supabase } from "./supabaseConfig.js";
 
-// SHOW avatar if logged in
 window.addEventListener("DOMContentLoaded", function () {
   let isLoggedIn = localStorage.getItem("isLoggedIn");
   let justLoggedIn = localStorage.getItem("justLoggedIn");
@@ -847,6 +806,9 @@ window.addEventListener("DOMContentLoaded", function () {
     document.getElementById("userDropdown").style.display = "block";
     document.getElementById("log").style.display = "none";
     document.getElementById("sell").style.display = "none";
+    document.getElementById("signfree").style.display = "none";
+    
+
   }
 });
 
@@ -854,6 +816,7 @@ window.addEventListener("DOMContentLoaded", function () {
 function toggleDropdown() {
   const menu = document.getElementById("dropdownMenu");
   menu.style.display = (menu.style.display === "block") ? "none" : "block";
+
 }
 
 //  Logout
