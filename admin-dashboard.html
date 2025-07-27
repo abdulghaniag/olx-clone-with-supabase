@@ -251,7 +251,7 @@
         <!-- User Product ka Data  -->
          <div id="productSection" style="display: none; margin-top: 20px;">
            <!-- <h2 >🛒 All Products</h2> -->
-     <h2 class="section-title"><i class="fas fa-cart-shopping"></i> All Products</h2>
+     <h2 class="section-title"><i class="fas fa-cart-shopping"></i> User Sale Products</h2>
       <table id="userTable" border="1" cellpadding="10">
         <thead>
           <tr>
@@ -267,6 +267,28 @@
           </tr>
         </thead>
         <tbody id="productBody">
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <!-- User Add To Cart Product -->
+      <div id="addToCartSection" style="display: none; margin-top: 20px;">
+           <!-- <h2 >🛒 All Products</h2> -->
+     <h2 class="section-title"><i class="fas fa-cart-shopping"></i>Add to Cart Product</h2>
+      <table id="userTable" border="1" cellpadding="10">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>user-email</th>
+            <th>product_name</th>
+            <th>product_image</th>
+            <th>product_price</th>
+            <th>quantity</th>  
+          </tr>
+        </thead>
+        <tbody id="add_Cart_Body">
         </tbody>
       </table>
     </div>
@@ -319,6 +341,7 @@
         });
       }
     });
+
 
     //  Show users table on click
     document.getElementById("usersLink").addEventListener("click", () => {
@@ -460,6 +483,50 @@ async function fetchUserProduct() {
     productBody.appendChild(tr);
   });
 }
+
+
+// Products Link Click
+// document.getElementById("user-Products").addEventListener("click", () => {
+//   document.getElementById("productSection").style.display = "block";
+//   fetchUserProduct();
+// });
+
+
+
+
+// Function Fetch Add to Cart Data
+document.getElementById("user-order").addEventListener("click", () => {
+  document.getElementById("addToCartSection").style.display = "block";
+  fetchAddToCartProduct();
+});
+
+async function fetchAddToCartProduct() {
+  const { data, error } = await supabase
+    .from("user_cart")
+    .select("*");
+
+  if (error) {
+    console.log("Error Fetching Product", error.message);
+    return;
+  }
+
+  const add_Cart_Body = document.getElementById("add_Cart_Body");
+  add_Cart_Body.innerHTML = "";
+
+  data.forEach((product, index) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${product.user_email}</td>
+      <td>${product.product_name}</td>
+      <td><img src="${product.product_image}" width="50" /></td>
+      <td>${product.product_price}</td>
+      <td>${product.quantity}</td>
+    `;
+    add_Cart_Body.appendChild(tr);
+  });
+}
+
 
 
 
