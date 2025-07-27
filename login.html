@@ -390,7 +390,6 @@
     </div>
     </div>
     <!-- loader  -->
-     <!-- 🔄 Loader for Login -->
 <div id="login-loader" style="display: none;">
   <div class="loader-spinner">
     <span>L</span><span>o</span><span>a</span><span>d</span><span>i</span><span>n</span><span>g</span>
@@ -423,6 +422,7 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
     password: loginPassword,
   });
 
+  document.getElementById("login-loader").style.display = "none";
   if (error) {
     Swal.fire({
       icon: "error",
