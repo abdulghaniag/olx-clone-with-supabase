@@ -1,287 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login page</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- <script>
-        let data = localStorage.getItem("storeData");
-        if (!data) {
-            alert("Plese Sign up first")
-            window.location.href = "sign-up.html";
-        }
-    </script> -->
-    <!-- <style>
-* {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    body {
-      background: #f2f4f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .login-container {
-      background: #fff;
-      border: 2px solid #e0e0e0;
-      border-radius: 15px;
-      padding: 40px 30px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .login-container:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    }
-
-    .login-heading {
-      text-align: center;
-      font-size: 28px;
-      margin-bottom: 30px;
-      color: #007bff;
-      font-weight: 600;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 500;
-      color: #333;
-    }
-
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px 14px;
-      margin-bottom: 20px;
-      border: 1.5px solid #ccc;
-      border-radius: 8px;
-      font-size: 15px;
-      transition: border 0.3s ease;
-    }
-
-    input:focus {
-      border-color: #007bff;
-      outline: none;
-    }
-
-    #loginBtn , #forgetPass{
-      width: 100%;
-      padding: 12px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      font-size: 17px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    #loginBtn:hover , #forgetPass:hover{
-      background-color: #0056b3;
-      transform: translateY(-2px);
-    }
-
-       .home-link {
-        margin-bottom: 10px;
-  display: inline-block;
-  /* padding-bottom: 200px; */
-  /* margin-right: 600px; */
-  padding: 10px 18px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.home-link:hover {
-  background-color: #0056b3;
-}
-/* Loader Css  */
-#login-loader {
-  position: fixed;
-  z-index: 9999;
-  top: 0;
-  left: 0;
-  background: rgba(255, 255, 255, 0.85);
-  width: 100%;
-  height: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.loader-spinner {
-  display: flex;
-  gap: 5px;
-  font-size: 30px;
-  font-weight: bold;
-  font-family: 'Segoe UI', sans-serif;
-  color: #2563eb;
-}
-
-.loader-spinner span {
-  animation: bounce 0.6s infinite alternate;
-}
-
-.loader-spinner span:nth-child(2) {
-  animation-delay: 0.1s;
-}
-.loader-spinner span:nth-child(3) {
-  animation-delay: 0.2s;
-}
-.loader-spinner span:nth-child(4) {
-  animation-delay: 0.3s;
-}
-.loader-spinner span:nth-child(5) {
-  animation-delay: 0.4s;
-}
-.loader-spinner span:nth-child(6) {
-  animation-delay: 0.5s;
-}
-.loader-spinner span:nth-child(7) {
-  animation-delay: 0.6s;
-}
-
-@keyframes bounce {
-  to {
-    transform: translateY(-15px);
-    color: #1d4ed8;
-  }
-}
-
-
-    </style> -->
-
-
-
-<style>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>login page</title>
+      <!-- <link rel="stylesheet" href="style.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <!-- <script>
+          let data = localStorage.getItem("storeData");
+          if (!data) {
+              alert("Plese Sign up first")
+              window.location.href = "sign-up.html";
+          }
+      </script> -->
+      <!-- <style>
   * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-  }
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+      }
 
-  body {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+      body {
+        background: #f2f4f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
 
-  .login-container {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 50px 35px;
-    width: 100%;
-    max-width: 430px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-    animation: fadeIn 0.5s ease-in-out;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
+      .login-container {
+        background: #fff;
+        border: 2px solid #e0e0e0;
+        border-radius: 15px;
+        padding: 40px 30px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
 
-  .login-container:hover {
-    transform: scale(1.015);
-    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
-  }
+      .login-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
 
-  .login-heading {
-    text-align: center;
-    font-size: 30px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 30px;
-  }
+      .login-heading {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 30px;
+        color: #007bff;
+        font-weight: 600;
+      }
 
-  label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #444;
-  }
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #333;
+      }
 
-  input[type="email"],
-  input[type="password"] {
-    width: 100%;
-    padding: 14px 16px;
-    margin-bottom: 22px;
-    border: 1.5px solid #ccc;
-    border-radius: 10px;
-    font-size: 15px;
-    transition: all 0.3s ease;
-    background-color: #f9f9f9;
-  }
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px 14px;
+        margin-bottom: 20px;
+        border: 1.5px solid #ccc;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: border 0.3s ease;
+      }
 
-  input:focus {
-    border-color: #667eea;
-    outline: none;
-    background: #fff;
-    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
-    transform: scale(1.01);
-  }
+      input:focus {
+        border-color: #007bff;
+        outline: none;
+      }
 
-  #loginBtn,
-  #forgetPass {
-    width: 100%;
-    padding: 13px;
-    font-size: 16px;
-    background: #667eea;
-    border: none;
-    color: white;
-    border-radius: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
-  }
+      #loginBtn , #forgetPass{
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        font-size: 17px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
 
-  #loginBtn:hover,
-  #forgetPass:hover {
-    background: #5a67d8;
-    transform: scale(1.03);
-    box-shadow: 0 10px 25px rgba(90, 103, 216, 0.5);
-  }
+      #loginBtn:hover , #forgetPass:hover{
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
 
-  .home-link {
+        .home-link {
+          margin-bottom: 10px;
     display: inline-block;
-    text-align: center;
-    background-color: #fff;
-    color: #667eea;
-    font-weight: 600;
+    /* padding-bottom: 200px; */
+    /* margin-right: 600px; */
+    padding: 10px 18px;
+    background-color: #007bff;
+    color: white;
     text-decoration: none;
-    border: 1px solid #ddd;
-    padding: 10px 20px;
-    border-radius: 10px;
-    margin: 10px 5px;
-    transition: all 0.3s ease;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
   .home-link:hover {
-    background-color: #f2f2f2;
-    color: #5a67d8;
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #0056b3;
   }
-
+  /* Loader Css  */
   #login-loader {
     position: fixed;
     z-index: 9999;
@@ -300,7 +131,8 @@
     gap: 5px;
     font-size: 30px;
     font-weight: bold;
-    color: #5a67d8;
+    font-family: 'Segoe UI', sans-serif;
+    color: #2563eb;
   }
 
   .loader-spinner span {
@@ -328,141 +160,313 @@
 
   @keyframes bounce {
     to {
-      transform: translateY(-10px);
-      color: #764ba2;
+      transform: translateY(-15px);
+      color: #1d4ed8;
     }
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(25px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 
-  @media(max-width: 480px) {
+      </style> -->
+
+
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
     .login-container {
-      padding: 30px 20px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 50px 35px;
+      width: 100%;
+      max-width: 430px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 0.5s ease-in-out;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .login-container:hover {
+      transform: scale(1.015);
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
     }
 
     .login-heading {
-      font-size: 24px;
+      text-align: center;
+      font-size: 30px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 30px;
     }
 
-    input,
-    button {
-      font-size: 14px;
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 22px;
+      border: 1.5px solid #ccc;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background-color: #f9f9f9;
+    }
+
+    input:focus {
+      border-color: #667eea;
+      outline: none;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+      transform: scale(1.01);
+    }
+
+    #loginBtn,
+    #forgetPass {
+      width: 100%;
+      padding: 13px;
+      font-size: 16px;
+      background: #667eea;
+      border: none;
+      color: white;
+      border-radius: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    #loginBtn:hover,
+    #forgetPass:hover {
+      background: #5a67d8;
+      transform: scale(1.03);
+      box-shadow: 0 10px 25px rgba(90, 103, 216, 0.5);
     }
 
     .home-link {
-      font-size: 13px;
-      padding: 8px 14px;
+      display: inline-block;
+      text-align: center;
+      background-color: #fff;
+      color: #667eea;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin: 10px 5px;
+      transition: all 0.3s ease;
     }
-  }
-</style>
+
+    .home-link:hover {
+      background-color: #f2f2f2;
+      color: #5a67d8;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    #login-loader {
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      background: rgba(255, 255, 255, 0.85);
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .loader-spinner {
+      display: flex;
+      gap: 5px;
+      font-size: 30px;
+      font-weight: bold;
+      color: #5a67d8;
+    }
+
+    .loader-spinner span {
+      animation: bounce 0.6s infinite alternate;
+    }
+
+    .loader-spinner span:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+    .loader-spinner span:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+    .loader-spinner span:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+    .loader-spinner span:nth-child(5) {
+      animation-delay: 0.4s;
+    }
+    .loader-spinner span:nth-child(6) {
+      animation-delay: 0.5s;
+    }
+    .loader-spinner span:nth-child(7) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes bounce {
+      to {
+        transform: translateY(-10px);
+        color: #764ba2;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media(max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+      }
+
+      .login-heading {
+        font-size: 24px;
+      }
+
+      input,
+      button {
+        font-size: 14px;
+      }
+
+      .home-link {
+        font-size: 13px;
+        padding: 8px 14px;
+      }
+    }
+  </style>
 
 
-    
-</head>
+      
+  </head>
 
-<body>
-    <div>
-    <a href="./index.html" class="home-link">← Back to Home</a>
-    <a href="./sign-up.html" class="home-link"> Back to Sign up →</a>
+  <body>
+      <div>
+      <a href="./index.html" class="home-link">← Back to Home</a>
+      <a href="./sign-up.html" class="home-link"> Back to Sign up →</a>
 
 
-    <div class="login-container">
-        <div class="login-heading">Login to Your Account</div>
+      <div class="login-container">
+          <div class="login-heading">Login to Your Account</div>
 
-        <label for="loginEmail">Email:</label>
-        <input type="email" id="loginEmail" placeholder="Enter your email">
+          <label for="loginEmail">Email:</label>
+          <input type="email" id="loginEmail" placeholder="Enter your email">
 
-        <label for="loginPassword">Password:</label>
-        <input type="password" id="loginPassword" placeholder="Enter your password">
+          <label for="loginPassword">Password:</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password">
 
-        <!-- Login Button -->
-        <button id="loginBtn">Login</button>
-        <button id="forgetPass" >Forget Password</button>
+          <!-- Login Button -->
+          <button id="loginBtn">Login</button>
+          <button id="forgetPass" >Forget Password</button>
+      </div>
+      </div>
+      <!-- loader  -->
+  <div id="login-loader" style="display: none;">
+    <div class="loader-spinner">
+      <span>L</span><span>o</span><span>a</span><span>d</span><span>i</span><span>n</span><span>g</span>
     </div>
-    </div>
-    <!-- loader  -->
-<div id="login-loader" style="display: none;">
-  <div class="loader-spinner">
-    <span>L</span><span>o</span><span>a</span><span>d</span><span>i</span><span>n</span><span>g</span>
   </div>
-</div>
 
 
-    <script type="module">
-import { supabase } from "./supabaseConfig.js";
+      <script type="module">
+  import { supabase } from "./supabaseConfig.js";
 
-document.getElementById("loginBtn").addEventListener("click", async function () {
-  
+  document.getElementById("loginBtn").addEventListener("click", async function () {
+    
   document.getElementById("login-loader").style.display = "flex";
-
-  let loginEmail = document.getElementById("loginEmail").value.trim();
-  let loginPassword = document.getElementById("loginPassword").value.trim();
-  // let loginLoader = document.getElementById("login-loader").value.trim();
-
-  if (!loginEmail || !loginPassword) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Please fill in all fields",
-    });
-    return;
-  }
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: loginEmail,
-    password: loginPassword,
-  });
-
-  document.getElementById("login-loader").style.display = "none";
-  if (error) {
-    Swal.fire({
-      icon: "error",
-      title: "Login Failed!",
-      text: error.message.includes("Email not confirmed")
-        ? "Please confirm your email before logging in."
-        : "Incorrect email or password!",
-    });
-    return;
-  }
-
-  localStorage.setItem("isLoggedIn", "true");
-  localStorage.setItem("loggedInUser", loginEmail);
-        document.getElementById("login-loader").style.display = "none";
-
-  Swal.fire({
-    title: "Login Successful!",
-    icon: "success",
-  });
-
-  setTimeout(() => {
-    let redirectTo = localStorage.getItem("redirectBack");
-    if (redirectTo) {
-      localStorage.removeItem("redirectBack");
-      window.location.href = redirectTo;
-    } else {
-      window.location.href = "index.html";
+  
+    let loginEmail = document.getElementById("loginEmail").value.trim();
+    let loginPassword = document.getElementById("loginPassword").value.trim();
+   
+    document.getElementById("login-loader").style.display = "none";
+    if (!loginEmail || !loginPassword) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please fill in all fields",
+      });
+      return;
     }
-  }, 1600);
+  document.getElementById("login-loader").style.display = "flex";
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: loginEmail,
+      password: loginPassword,
+    });
 
-  document.getElementById("loginEmail").value = "";
-  document.getElementById("loginPassword").value = "";
-});
+    document.getElementById("login-loader").style.display = "none";
+    if (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed!",
+        text: error.message.includes("Email not confirmed")
+          ? "Please confirm your email before logging in."
+          : "Incorrect email or password!",
+      });
+      return;
+    }
+
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("loggedInUser", loginEmail);
+    document.getElementById("login-loader").style.display = "none";
+
+    Swal.fire({
+      title: "Login Successful!",
+      icon: "success",
+    });
+
+    setTimeout(() => {
+      let redirectTo = localStorage.getItem("redirectBack");
+      if (redirectTo) {
+        localStorage.removeItem("redirectBack");
+        window.location.href = redirectTo;
+      } else {
+        window.location.href = "index.html";
+      }
+    }, 1600);
+
+    document.getElementById("loginEmail").value = "";
+    document.getElementById("loginPassword").value = "";
+  });
+
+
+
+
 
 let forgetPass = document.getElementById("forgetPass")
 if(forgetPass){
-  forgetPass.addEventListener("click" , async ()=> {  
-  let loginEmail = document.getElementById("loginEmail").value.trim();
+  forgetPass.addEventListener("click", async () => {
+    let loginEmail = document.getElementById("loginEmail").value.trim();
 
-   if (!loginEmail) {
+    if (!loginEmail) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -470,30 +474,37 @@ if(forgetPass){
       });
       return;
     }
+    document.getElementById("login-loader").style.display = "flex";
 
-  const { data, error } = await supabase.auth.resetPasswordForEmail(
-      loginEmail, 
-      {
-  redirectTo: 'http://127.0.0.1:5500/update-pass.html',
-  });
-   if (error) {
+    try {
+      const { data, error } = await supabase.auth.resetPasswordForEmail(loginEmail, {
+        redirectTo: 'http://127.0.0.1:5500/update-pass.html',
+      });
+      document.getElementById("login-loader").style.display = "none";
+      if (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Failed",
+          text: error.message,
+        });
+      } else {
+        Swal.fire({
+          icon: "success",
+          title: "Check your email",
+          text: "A reset link has been sent!",
+        });
+      }
+    } catch (err) {
+      document.getElementById("login-loader").style.display = "none";
       Swal.fire({
         icon: "error",
-        title: "Failed",
-        text: error.message,
-      });
-    } else {
-      Swal.fire({
-        icon: "success",
-        title: "Check your email",
-        text: "A reset link has been sent!",
+        title: "Error",
+        text: "Something went wrong. Try again.",
       });
     }
   });
-
 }
+  </script>
+  </body>
 
-</script>
-</body>
-
-</html>
+  </html>
