@@ -210,7 +210,7 @@
       <button class="logout-btn" id="logout">Logout</button>
     </div>
 
-    <div class="cards" id="dashboardSection">
+    <!-- <div class="cards" id="dashboardSection">
       <div class="card">
         <h3>Total Users</h3>
         <p>102</p>
@@ -227,7 +227,44 @@
         <h3>Revenue</h3>
         <p>$5,200</p>
       </div>
-    </div>
+    </div> -->
+
+<div class="cards" id="dashboardSection">
+  <div class="card">
+    <h3>Total Users</h3>
+    <p id="totalUsers">Loading...</p>
+  </div>
+  <div class="card">
+    <h3>Total Products</h3>
+    <p id="totalProducts">Loading...</p>
+  </div>
+  <div class="card">
+    <h3>Total Orders</h3>
+    <p id="totalOrders">Loading...</p>
+  </div>
+  <div class="card">
+    <h3>Revenue</h3>
+    <p id="totalRevenue">Loading...</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- User Signup ka Data  -->
     <div id="usersSection" style="display: none; margin-top: 20px;">
      <h2 class="section-title"><i class="fas fa-users"></i> All Users</h2>
@@ -485,15 +522,6 @@ async function fetchUserProduct() {
 }
 
 
-// Products Link Click
-// document.getElementById("user-Products").addEventListener("click", () => {
-//   document.getElementById("productSection").style.display = "block";
-//   fetchUserProduct();
-// });
-
-
-
-
 // Function Fetch Add to Cart Data
 document.getElementById("user-order").addEventListener("click", () => {
   document.getElementById("addToCartSection").style.display = "block";
@@ -528,7 +556,51 @@ async function fetchAddToCartProduct() {
 }
 
 
+// Analized Section 
+// ANALYTICS SECTION – Supabase Based
 
+async function updateDashboardStats() {
+  try {
+    // 1. Total Users
+    const { data: users } = await supabase.from("user_details").select("*");
+    document.getElementById("totalUsers").innerText = users.length;
+
+    // 2. Total Products
+    const { data: products } = await supabase.from("user_sell_product").select("*");
+    document.getElementById("totalProducts").innerText = products.length;
+
+    // 3. Total Orders
+    const { data: orders } = await supabase.from("user_orders").select("*");
+    document.getElementById("totalOrders").innerText = orders.length;
+
+    // 4. Total Revenue
+    let total = 0;
+    orders.forEach(order => {
+      try {
+        const cart = order.cart_items;
+        cart.forEach(item => {
+          total += Number(item.product_price) * (item.quantity || 1);
+        });
+      } catch (err) {
+        console.warn("Cart parse error", err);
+      }
+    });
+    document.getElementById("totalRevenue").innerText = "Rs. " + total.toLocaleString();
+
+  } catch (error) {
+    console.error("Dashboard Stats Error:", error.message);
+  }
+}
+
+// Load stats when dashboard loads
+updateDashboardStats();
+
+
+// Analized link click 
+document.getElementById("user-analytics").addEventListener("click", () => {
+  document.getElementById("dashboardSection").style.display = "block";
+  updateDashboardStats();
+});
 
 
 
